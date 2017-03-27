@@ -1,0 +1,23 @@
+LVM - Re-Sizing the logical Volumes
+===================================
+
+I . Extending the LVM
+----------------------
+# lvextend -L +100G /dev/vg1/lv1
+# resize2fs /dev/vg1/lv1
+
+
+II. Reduce the LVM in RHEL5, RHEL6
+----------------------------------
+# unmount /data
+# resize2fs /dev/vg1/lv1 100M
+# lvchange  -an /dev/vg1/lv1
+# lvreduce -L -100M /dev/vg1/lv1
+# lvchange -ay /dev/vg1/lv1
+# mount /data
+# df -hP /data
+
+II. Reduce the LVM in RHEL7
+----------------------------------
+
+You cannot shrink an xfs filesystem
