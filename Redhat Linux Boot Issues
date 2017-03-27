@@ -25,3 +25,48 @@ Software
 * very high load -  that makes progress slow and system hung
 * Out of Memeory (OOM)  
 
+
+
+How to Re-install corrupted /boot partition ?
+=============================================
+
+Reinstall /boot partition manually with the following steps:
+1. # linux rescue
+2. # chroot /mnt/sysimage
+3. # e2label /dev/sda1 /boot
+4. # mount /dev/sda1 /boot
+5. Install listed rpms
+  # mkdir /mnt/iso
+  # mount -o loop,ro /dev/hdc /mnt/iso
+  # cd /mnt/iso/Server
+  # rpm -Uvh --replacefiles --replacepkgs grub-0.97-13.i386.rpm
+  # rpm -Uvh --replacefiles --replacepkgs redhat-logos-4.9.16-1.noarch.rpm
+  # rpm -ivh --replacefiles --replacepkgs kernel-2.6.18-8.el5.i686.rpm
+6. Install grub
+   # grub-install /dev/sda
+7. # exit
+
+How to re-install grub2 in RHEL7 ?
+==================================
+1. # linux rescue
+2. # chroot /mnt/sysimage
+3. # grub2-install /dev/sda
+4. # exit
+
+How to re-install grub in multipath device  ?  boot from SAN 
+=============================================================
+
+ Note :  grub-install  command does not work for multipath.
+ info :  In boot from SAN , HBA BIOS is responsible for finding boot device in SAN.
+ 
+1. #  linux rescue mpath
+2. #  Edit /etc/fstab to use multipath device names (/dev/mapper/mpathX) instead of plain names (/dev/sdY) to Mount /boot
+3. #  Add multipath device containing /boot to install boot loader
+   # grub
+     grub> device (hd0) /dev/mapper/mpatha
+     grub> root (hd0,0)
+     grub> setup (hd0)
+     grub> exit
+
+
+
