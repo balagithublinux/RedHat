@@ -53,6 +53,13 @@ How to re-install grub2 in RHEL7 ?
 3. # grub2-install /dev/sda
 4. # exit
 
+
+How to re-genarete grub.conf ?
+===============================
+# grub2-mkconfig -o /boot/grub2/grub.cfg
+
+
+
 How to re-install grub in multipath device  ?  boot from SAN 
 =============================================================
 
