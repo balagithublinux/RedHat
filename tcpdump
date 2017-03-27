@@ -1,0 +1,30 @@
+TCPDUMP
+=======
+-> Capture Network packets
+
+Regular Expressions:
+---------------------
+AND    -  and or &&
+OR     -   or or ||
+EXCEPT -  not or !
+
+Options:
+--------
+-i  => interface
+-c  => count 
+ port  => port
+
+
+ To capture network packets of eth0
+-------------------------------------
+# tcpdump -i eth0
+
+To capture network packet of two different IP
+--------------------------------------------
+# tcpdump src 192.168.1.2 and dest 172.168.2.1 -c 10
+
+To capture network traffic of source port
+-----------------------------------------
+# tcpdump src port 22 -c
+
+
