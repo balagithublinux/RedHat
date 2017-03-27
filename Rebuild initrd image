@@ -1,0 +1,9 @@
+Rebuilding the initrd (RHEL 3, 4, 5)
+------------------------------------
+# mkinitrd -v -f /boot/initrd-$(uname -r).img $(uname -r)
+
+
+
+Rebuilding the initramfs (RHEL 6, 7)
+---------------------------------------
+# dracut -f /boot/initramfs-$(uname -r).img $(uname -r)
