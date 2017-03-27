@@ -1,3 +1,27 @@
-Redhat Linux Boot Issues
-========================
+Kernel Panic
+============
+What is Kernel panic ?
+Kernel Panic is an action taken by operating system upon detecting an internal fatal error from which it cannot safely recover.
+Kernel Panic error codes calling from "sys/system.h" header.
+
+Types of Kernel Panic
+---------------------
+
+1. Panic - Voluntary system  halt when abnormal situation detected 
+2. Opps  - Same as Panic
+3. BUG (ON)
+4. Hangs   - System not making  progress, not responding to normal user interaction.
+
+Kernel Panic cause
+------------------
+
+Hardware 
+
+* H/W fault or Firmware Bug -> compoement Failure 
+
+Software
+
+* Bug (ON)  driver
+* very high load -  that makes progress slow and system hung
+* Out of Memeory (OOM)  
 
