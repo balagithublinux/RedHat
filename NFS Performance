@@ -1,0 +1,54 @@
+Initial baseline data collection for NFS client streaming I/O performance 
+==========================================================================
+
+1. Network Tests
+2. I/O Tests
+
+1. Network Tests :- Test speed of underlying network between NFS Client and NFS Server
+---------------------------------------------------------------------------------------
+
+    # iperf
+    Server: iperf3 -i 10 -w 4M -s
+    Client: iperf3 -i 10 -w 4M -t 60 -c <server hostname or ip address>
+
+    # ttcp
+    Server: ttcp -l 1048576 -b 4194304 -r -s
+    Client: dd if=/dev/zero bs=1M count=10240 | ttcp -l 1048576 -b 4194304 -t -n 10240 <server hostname or ip address>
+    
+2 . I/O tests
+--------------
+
+    Test the streaming write performance of the NFS client
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    * Drop cache before every test: echo 3 > /proc/sys/vm/drop_caches
+    # dd if=/dev/zero of=/mnt/nfs/testfile.bin bs=1M count=10000 conv=fsync
+
+    Test the streaming read performance of NFS client
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    * Drop cache before every test: echo 3 > /proc/sys/vm/drop_caches
+    # dd if=/mnt/nfs/testfile.bin of=/dev/null bs=1M conv=fsync
+    
+    Data Collection During Each Test
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+    # cat /etc/fstab > /tmp/etc-fstab.out
+    # cat /proc/mounts > /tmp/proc-mounts.out
+    # nfsiostat 5 /mnt/nfs > /tmp/nfsiostat-test-type.out
+    # iostat -x 5 > /tmp/iostat-test-type.out
+    # while true; do date >> /tmp/nfs_meminfo-test-type.out; egrep "(Dirty|Writeback|NFS):" /proc/meminfo >> /tmp/nfs_meminfo-test-type.out; sleep 5; done
+
+
+
+
+    If you change any parameters, record how that parameter was set for all data points. eg:
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.---------------- -------- ------- ------------ -----------.
+| Client kernel  | rsize  | wsize | Write      | Read      |
++---------------- -------- ------- ------------ -----------+
+| 2.6.32-220     | 128k   | 128k  | 100Mb/sec  | 100Mb/sec |
+| 2.6.32-279**   | 128k   | 128k  | 110Mb/sec  | 110Mb/sec |
+| 2.6.32-279     | 1Mb**  | 1Mb** | 120Mb/sec  | 120Mb/sec |
+'---------------- ---------------- ------------ -----------'
+
+changed parameter denoted with **
+
