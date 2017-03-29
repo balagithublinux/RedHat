@@ -1,0 +1,30 @@
+How do I run a script or program immediately after my network interface goes up?
+----------------------------------------------------------------------------------
+
+Create file /sbin/ifup-local and add the commands to run after the network is up.
+
+An example for one physical interface:
+
+#!/bin/bash
+if [ "$1" == "eth0" ]; then
+  /sbin/ethtool -G eth0 rx 4096 tx 4096
+fi
+
+RHEL network interface dropping packets 
+----------------------------------------
+
+Verify packet drops
+~~~~~~~~~~~~~~~~~~~
+# ip -s -s  link
+# ethtool -S eth0
+
+Resolution
+~~~~~~~~~~
+
+Increase RX and TX ring buffer
+# ethtool -G eth0 rx 4080 
+# ethtool -G eth0 tx 4080
+
+To check
+# ethtool -g eth0
+
