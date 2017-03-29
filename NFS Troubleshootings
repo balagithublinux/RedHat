@@ -48,4 +48,79 @@ How to check supported NFS version ?
 
 
 
+RHEL mount hangs: nfs: server [...] not responding, still trying
+==================================================================
 
+Troubleshooting with packet captures
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The goal of these steps is to isolate the problem into one of 3 categories:
+
+    Problem between the NFS Client and NFS Server
+    Problem on the NFS Server
+    Problem on the NFS Client
+
+Once the problem is isolated, further troubleshooting is required to fix the problem, and is beyond the scope of this solution.
+
+The most direct means of troubleshooting this issue requires at least packet captures from both the NFS Client and NFS Server perspectives. 
+In some scenarios, it may be possible to diagnose with a packet capture on just one side, such as the NFS Client, but both sides are highly recommended.
+
+NOTE: Any tcpdump capture should only contain packets involving the problematic NFS server. 
+If using tcpdump, you can accomplish this by using the 'host' pcap-filter and providing the NFS server name or IP address from the "not responding" message. 
+Failing to filter the packet capture to only the problematic NFS server is very likely to result in delays in root cause analysis. Example:
+
+# grep "not responding" /var/log/messages
+Sep 29 22:54:39 client kernel: nfs: server server.example.com  not responding, still trying
+
+# tcpdump -i eth0 -s 0 -w /tmp/tcpdump.pcap host server.example.com
+
+
+
+
+NFS client shows "Input/output errors" while transferring huge data. 
+=====================================================================
+
+Root Cause
+
+    The settings in /etc/fstab for timeo and retry being too small when combining with a heavy server load causes the calls to fail.
+
+    * use the TCP defults of 60 seconds timeout, 2 retries (timeo=600,retry=2)
+    
+    
+    
+NFS Stale File Handle error and solution
+===============================================
+
+error:
+$ ls
+.: Stale File Handle
+
+Occur when the current directory of a process, running on your client, is removed on the server while client in use.
+
+# umount -f /mnt/local
+# mount -t nfs nfsserver:/path/to/share /mnt/local
+
+
+
+How to enable NFS v4.2 on RHEL7? 
+================================
+
+    Edit the /etc/sysconfig/nfs file to set the RPCNFSDARGS flag to "-V 4.2":
+
+ #grep RPCNFSDARGS /etc/sysconfig/nfs 
+ RPCNFSDARGS="-V 4.2"
+
+ # systemctl restart nfs-config.service 
+ # systemctl restart nfs-server.service
+ 
+ 
+ 
+    
+
+
+
+    
+    
+    
+    
+    
