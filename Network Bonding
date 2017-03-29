@@ -1,0 +1,45 @@
+Bonding Modes
+--------------
+
+1 .  balance-rr ( mode 0 ) 
+        * Round robin policy
+        --> Transmits packets in sequential order from first available slave through last
+        --> This mode provides load-balancing and fault-tolerance.
+ 2.  active-backup ( mode 1 )
+          * Active-Backup policy
+          --> Only one slave in the bond is  Active, if it fails passive slave will become Active.
+          --> This mode provides fault tolerance.
+ 3.  balance-xor ( mode 2 )
+           * XOR policy
+           --> Transmit based on hash-policy.
+           --> This mode provides load-balancing and fault tolarence.
+ 4.  broadcast ( mode 3 )
+            * broadcast policy
+            --> Transmit everything on all slave interfaces.
+            --> This mode provides fault-tolarence.
+ 5.  802.3 ( mode 4 )
+ 
+ 6.  balance-tlb ( mode 5 )
+ 
+ 7.  balance-alb ( mode 6 )
+ 
+ Configuring bonded devices on Red Hat Enterprise Linux 7
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 
+ # nmcli con add type bond ifname bond0 mode active
+ # nmcli con modify bond0 ipv4.addresses 192.168.2.50
+ # nmcli con modify bond0 ipv4.method manual
+ # nmcli con add type bond-slave  ifname eth0 master bond0
+ # nmcli con add type bond-slave  ifname eth1 master bond0
+ # nmcli con show
+ 
+ Link Monitoring Modes
+ ~~~~~~~~~~~~~~~~~~~~~~
+ 
+ 1. miimon --> MII link monitoring in milli-seconds. Default value is 0 (disable). 100 is good value. updelay / downdelay  value will use for wait to recovery slave.  
+ 2. arp_interval --> ARP link monitoring in milli-seconds
+ 3. arp_ip_target --> IP Addresses will use ARP link monitoring when arp_interval > 0. seperate ip's by , ,
+ 
+ 
+ 
+        
