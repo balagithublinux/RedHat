@@ -12,3 +12,40 @@ To turn off NFSv4 support, edit
 * Where -N X tells the rpc.nfsd daemon to not offer X version of NFS.
 
 
+How to bypass or disable the NFS cache on a NFS client.
+=======================================================
+
+Resolution
+
+    This is an expected behavior from the NFS client.
+
+    There is no specific option available to be used with with nfs mount 
+    which would ensure that data transfer would by-pass the page cache or kernel cache.
+
+    Use the "sync" option while mounting the filesystem to ensure highest data integrety and to get better data transfer.
+    
+How to check connected NFS clients to NFS server ? 
+===================================================
+    Run this on NFS Server:
+
+# netstat -an | grep 192.168.0.254:2049
+
+NOTE: 192.168.0.254 is NFS Server and 2049 is NFS Server port no.
+
+
+How to check supported NFS version ?
+====================================
+
+    # rpcinfo -p <NFS server IP>
+
+    program    vers      proto   port
+    100003    2   udp   2049  nfs
+    100003    3    udp   2049  nfs
+    100003    4   udp   2049  nfs
+    100003    2   tcp    2049  nfs
+    100003    3   tcp   2049  nfs
+    100003    4   tcp   2049  nfs
+
+
+
+
