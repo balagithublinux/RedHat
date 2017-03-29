@@ -17,7 +17,7 @@ Initial baseline data collection for NFS client streaming I/O performance
     
 2 . I/O tests
 --------------
-
+    
     Test the streaming write performance of the NFS client
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     * Drop cache before every test: echo 3 > /proc/sys/vm/drop_caches
@@ -27,6 +27,24 @@ Initial baseline data collection for NFS client streaming I/O performance
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     * Drop cache before every test: echo 3 > /proc/sys/vm/drop_caches
     # dd if=/mnt/nfs/testfile.bin of=/dev/null bs=1M conv=fsync
+    
+    
+    nfsiostat
+    ---------
+    Run nfsiostat to monitor the performance of NFS reads and writes:
+
+    # date > nfsiostat.txt; nfsiostat 5 NFS-MOUNT-POINT >> nfsiostat.txt
+    
+    write:  ops/s           kB/s          kB/op        retrans        avg RTT (ms)    avg exe (ms)
+                14.000       11410.775       815.055      0 (0.0%)        1107.043        80432.143
+    
+    The output will show the ops/s, kB/s and latencies for reads/writes,
+    i.e. It describes the data travelling via the network to the NFS Server and how long it takes.
+
+    "avg RTT": "the network + server latency of the request"
+    "avg exe": "the total time the request spent from init to release"
+    
+    
     
     Data Collection During Each Test
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
@@ -51,4 +69,9 @@ Initial baseline data collection for NFS client streaming I/O performance
 '---------------- ---------------- ------------ -----------'
 
 changed parameter denoted with **
+
+
+
+
+
 
