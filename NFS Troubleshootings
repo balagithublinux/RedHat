@@ -1,0 +1,14 @@
+How to disable a specific version of NFS on my NFS server?    or 
+How to configure an NFS server to only accept connections via specific versions of NFS?
+=======================================================================================
+
+To turn off NFSv4 support, edit 
+
+# vi  /etc/sysconfig/nfs
+     RPCNFSDARGS="-N 4"
+
+# systemctl restart nfs
+
+* Where -N X tells the rpc.nfsd daemon to not offer X version of NFS.
+
+
