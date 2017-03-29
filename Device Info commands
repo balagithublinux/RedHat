@@ -1,0 +1,25 @@
+To identify major:minor number
+=============================
+# mountpoint -d /mnt/         ---> for Filesystem
+0:33
+
+# mountpoint -x /dev/mapper/VolGroup00-LogVol01   ---> for Block Device
+
+or
+
+# ls -ld  /dev/mapper/mpath1
+
+or
+
+[root@localhost vagrant]# dmsetup  info /dev/dm-1
+Name:              VolGroup00-LogVol01
+State:             ACTIVE
+Read Ahead:        8192
+Tables present:    LIVE
+Open count:        2
+Event number:      0
+Major, minor:      253, 1
+Number of targets: 1
+UUID: LVM-LmkfM636WmuMKOzjcqO5u907e3wwD3QwKnPas1cHX1vaNsh7DuBBFajAsTHBm9lg
+
+
